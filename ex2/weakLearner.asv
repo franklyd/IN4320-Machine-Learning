@@ -1,0 +1,29 @@
+function [ f,theta,y ] = weakLearner( X,lab )
+%weakLearner: A very simple classifier
+%  Input: dataset with labels
+%  Find the optimal feature f and threshold theta
+%  Output: optimal f, theta, and y.
+[n,f] = size(X);
+X_min = min(X);
+X_max = max(X);
+Class1 = X(lab==1);
+n1 = size(Class1,1);
+Class2 = X(lab==2);
+n2 = size(Class2,1);
+max_sc
+for i=1:f
+    for j = X_min(i):0.0001:X_max(i)
+        y = 0; % meaning sign is: >
+        Theta1 = zeros(n1,1) +j;
+        Theta2 = zeros(n2,1) +j;
+        score1 = sum(Class1(:,i)- Theta1>0);
+        score2 = sum(Class2(:,i)- Theta1<0);
+        score = score1+score2;
+        if n-score > score
+            score = n-score;
+            y=1;
+        end
+    end
+end
+end
+

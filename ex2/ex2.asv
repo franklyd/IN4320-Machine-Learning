@@ -11,12 +11,15 @@ title('e^-^x VS 1-x ')
 hold off
 
 %% b&c. weak learner and test the implementation
-randn('seed',0);
 A = randn(100,2);
-randn('seed',1);
 B = randn(100,2);
 B(:,1) = B(:,1)+2;
 X = [A;B];
 lab = [ones(100,1);ones(100,1)+1];
-scatterd(prdataset(X,lab),'legend');
+scatterd(A,'r*');
+legend('Class 1');
+hold on
+scatterd(B,'b+');
+legend('Class
+
 [feat,theta,y] = weakLearner(X,lab);
