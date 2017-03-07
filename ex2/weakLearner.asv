@@ -20,7 +20,7 @@ for i=1:f
         predict1 = predict1+1;
         predict = predict+1;
         score =sum(abs(predict-lab));
-        score1 = sum(abs(predict1-lab));
+        score1 = sum(abs(predict1-lab);
         if score>score1
             score = score1;
             sign =1;

@@ -6,15 +6,20 @@ function [ feat,theta,y] = weightedWeakLearner( X,weight,lab)
 if nargin < 3
     lab = getlab(X);
     X = getdata(X);
-    
 end
+%%%%%%% for testing
+X_min = min(X);  
+X_max = max(X); 
+%%%%%%%
+
+
 [n,f] = size(X);
-min_score = 1000000;
+min_score = 10000000;
 for i=1:f
-    for j = 1:n
+    for j = X_min(i):0.1:X_max(i)
         sign = 0; %sign is: >
         %predict
-        Theta = ones(n,1)*X(j);
+        Theta = ones(n,1)*j;
         predict = X(:,i)-Theta<=0;
         predict1 = X(:,i)-Theta>=0;
         predict1 = predict1+1;
@@ -29,7 +34,8 @@ for i=1:f
             min_score = score;
             y = sign;
             feat = i;
-            theta = X(j);
+            %theta = X(j);
+            theta = j;
         end
     end
 end

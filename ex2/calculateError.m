@@ -1,4 +1,4 @@
-function [ e ] = calculateError( feat,theta,y,X_test,weight,lab_test)
+function [ e,predict ] = calculateError( feat,theta,y,X_test,weight,lab_test)
 %calculateError calculate the error based on feature,theta and y 
 %   
 if nargin==4
