@@ -1,0 +1,11 @@
+function [ output_args ] = adaBoost( X,y,T)
+%adaBoost train several weak classifiers
+% Input: X training data, y label, T number of iterations
+% Output:
+[n,f] = size(X);
+weight = ones(n,1);
+weight = weight/sum(weight);
+
+
+end
+

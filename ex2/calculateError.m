@@ -1,25 +1,40 @@
-function [ e ] = calculateError( feat,theta,y,X_test,lab_test)
+function [ e ] = calculateError( feat,theta,y,X_test,weight,lab_test)
 %calculateError calculate the error based on feature,theta and y 
 %   
-if nargin < 5
+if nargin==4
     lab_test = getlab(X_test);
     X_test = getdata(X_test);
+    weight = ones(size(X_test,1),1)/size(X_test,1);
 end
-[n,f] = size(X_test);
-Class1 = X_test(lab_test==1,:);
-n1 = size(Class1,1);
-Class2 = X_test(lab_test==2,:);
-n2 = size(Class2,1);
+if nargin==5
+    lab_test = getlab(X_test);
+    X_test = getdata(X_test);
 
-Theta1 = ones(n1,1)*theta;
-Theta2 = ones(n2,1)*theta;
-
-score1 = sum((Class1(:,feat)- Theta1)>0);
-score2 = sum((Class2(:,feat)- Theta2)<=0);
-score = score1+score2;
-if y==1
-    score = n - score;
 end
-e = score/n;
+weight = weight/sum(weight);
+n = size(X_test,1);
+Theta = ones(n,1)*theta;
+if y==0
+    predict = X_test(:,feat)-Theta<=0;
+    predict = predict+1;
+    score = weight'*abs(predict-lab_test);
+   
+else
+    predict = X_test(:,feat)-Theta>=0;
+    predict = predict+1;
+    score = weight'*abs(predict-lab_test);
+    
+end
+% 
+% 
+% predict = (Class1(:,feat)- Theta1)>0;
+% score = weight1'*predict;
+% predict2 = (Class2(:,feat)- Theta2)<=0;
+% score2 = weight2'*predict2;
+% score = score+score2;
+% if y==1
+%     score =sum(weight)-score;
+% end
+e = score;
 end
 

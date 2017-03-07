@@ -36,15 +36,16 @@ X = prdataset(X,lab);
 [X_train,X_test] = gendat(X,[50,50]);
 
 [feat,theta,y] = weakLearner(X_train);
-e = calculateError( feat,theta,y,X_test)
+e = calculateError( feat,theta,y,X_test);
 
 %% e weighted version
 % Question: should the weight be normalized??
 % a simple case for testing
 X = gendats([100,100],2);
 scatterd(X,'legend');
-weight = [ones(100,1);100*ones(100,1)];
+weight = [ones(100,1);ones(100,1)];
 [feat,theta,y]  = weightedWeakLearner( X,weight);
+e = calculateError( feat,theta,y,X,weight);
 
 %% e weighted testing on digit dataset
 lab = getlab(X_train);
