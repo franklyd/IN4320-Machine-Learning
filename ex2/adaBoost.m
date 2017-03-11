@@ -17,7 +17,8 @@ for t = 1:T
     [feat,theta,y] = weightedWeakLearner( X,p,lab);
     para(t,:) = [feat,theta,y];
     [e,pred] = calculateError(feat,theta,y,X,p,lab);
-    %question: how to deal with e=0??
+    %question: how to deal with e=0?? 
+    %Break!
     if e==0
         e=0.001;
     end

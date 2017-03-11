@@ -41,8 +41,9 @@ e = calculateError( feat,theta,y,X_test);
 % Question: should the weight be normalized??
 % a simple case for testing
 X = gendats([100,100],2);
+X = gendatb([100,100]);
 scatterd(X,'legend');
-weight = [ones(100,1);10*ones(100,1)];
+weight = [ones(100,1);ones(100,1)];
 [feat,theta,y]  = weightedWeakLearner( X,weight);
 e = calculateError( feat,theta,y,X,weight);
 
@@ -55,16 +56,19 @@ weight = ones(size(lab));
 [feat,theta,y]  = weightedWeakLearner( X,weight);
 
 %% implemented adaBoost
-X = gendatb([1000,1000]);
-[X,X_test]= gendat(X,0.5);
+X = gendatb(1000);
+lab= str2num(getlab(X));
+X_data = getdata(X);
+X = pr_dataset(X_data,lab);
+[X_train,X_test]= gendat(X,0.5);
 scatterd(X,'legend')
-T=100;
+T=5;
 %train the classifier
-[predLab,beta,para] = adaBoost(X,T);
-error_train = sum(abs(predLab-str2num(getlab(X))))/size(X,1);
+[predLab,beta,para] = adaBoost(X_train,T);
+error_train = sum(abs(predLab-(getlab(X_train))))/size(X_train,1)
 % on test set
 predLab_test = adaPredict(beta,para,X_test);
-error_test = sum(abs(predLab_test-str2num(getlab(X_test))))/size(X_test,1)
+error_test = sum(abs(predLab_test-(getlab(X_test))))/size(X_test,1)
 %% test for adaboost: toy example
 A = [1 1;2 1;3 2;4 2;1.5 1];
 B = [1 2;2 2;3 1;4 1];
@@ -85,21 +89,31 @@ X_train = X([1:50,555:604],:);
 X_test = X([51:554,605:end],:);
 
 %scatterd(X,'legend')
-T=40;
+T=1;
 %train the classifier
 [predLab,beta,para] = adaBoost(X_train,T);
 error_train = sum(abs(predLab-(getlab(X_train))))/size(X_train,1)
 % on test set
 predLab_test = adaPredict(beta,para,X_test);
 error_test = sum(abs(predLab_test-(getlab(X_test))))/size(X_test,1)
-
+%%
+X = gendatb([1000,1000]);
+[X_train,X_test]= gendat(X,0.5);
+scatterd(X,'legend')
 E_history = [];
 t_list = [1 5 10 20:2:40 100];
 t_list = [1 2 3 5 10 12 14 16 18 20 25 30 35 40];
+t_list = [1 10 30 40 50]
 for t = t_list
     [predLab,beta,para] = adaBoost(X_train,t);
+    error_train = sum(abs(predLab-str2num(getlab(X_train))))/size(X_train,1);
     predLab_test = adaPredict(beta,para,X_test);
-    error_test = sum(abs(predLab_test-(getlab(X_test))))/size(X_test,1);
-    E_history = [E_history error_test];
+    error_test = sum(abs(predLab_test-str2num(getlab(X_test))))/size(X_test,1);
+    E_history = [E_history error_train];
 end
 plot(t_list,E_history)
+
+%% test
+if class(getlab(X_train))=='char'
+    lab = str2num(getlab(X_train))
+end

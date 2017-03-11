@@ -11,8 +11,6 @@ end
 X_min = min(X);  
 X_max = max(X); 
 %%%%%%%
-
-
 [n,f] = size(X);
 min_score = 10000000;
 for i=1:f
