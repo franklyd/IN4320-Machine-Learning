@@ -14,7 +14,7 @@ X_max = max(X);
 [n,f] = size(X);
 min_score = 10000000;
 for i=1:f
-    for j = X_min(i):0.1:X_max(i)
+    for j = X_min(i):1:X_max(i)
         sign = 0; %sign is: >
         %predict
         Theta = ones(n,1)*j;

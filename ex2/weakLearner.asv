@@ -4,8 +4,7 @@ function [ feat,theta,y ] = weakLearner( X,lab)
 %  Find the optimal feature f and threshold theta
 %  Output: optimal f, theta, and y.
 
-% If a single input(indicating that input is pr_dataset), 
-% read in the data and label from pr_dataset.
+% If inppu
 if nargin < 2
     lab = getlab(X);
     X = getdata(X);
@@ -15,6 +14,7 @@ min_score = 10000000;
 for i=1:f
     for j = 1:n
         sign = 0; %sign is: "<"
+                sign = 0; %sign is: ">"
         % calculate predictions
         Theta = ones(n,1)*X(j);
         predict = X(:,i)-Theta<=0;
