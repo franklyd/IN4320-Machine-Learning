@@ -20,6 +20,7 @@ X = [A;B];
 lab = [ones(100,1);ones(100,1)+1];
 scatterd(prdataset(X,lab),'legend');
 [feat,theta,y] = weakLearner(X,lab);
+e = calculateError( feat,theta,y,X);
 %%
 B(:,1) = B(:,1)*10;
 A(:,1) = A(:,1)*10;
