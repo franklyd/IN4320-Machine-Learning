@@ -24,7 +24,7 @@ labeled_sigma0 = cov(X0);
 labeled_sigma1 = cov(X1);
 sigma0 = labeled_sigma0;
 sigma1 = labeled_sigma1;
-sigma = prior0 * sigma0 + prior1 * sigma1 + 1e-5*eye(D);
+sigma = prior0 * sigma0 + prior1 * sigma1 + 1e-10*eye(D);
 p0 = zeros(size(X_u,1),1);
 
 for i = 1: iterations
@@ -32,14 +32,12 @@ for i = 1: iterations
     % calculate post_Pr for unlabeled data
     p0_prev = p0;
     p0 = mvnpdf(X_u, mean0, sigma);
-    p0(p0==0) = eps(1);
     p1 = mvnpdf(X_u, mean1, sigma);
-    p1(p1==0) = eps(1);
-    if p1(p0==0) == 0
-        p0_temp = p0;
-        p0(p1==0)= 0.1;
-        p1(p0_temp==0) = 0.1;
-    end 
+    
+    p0_temp = p0;
+    p0(p1==0)= 0.1;
+    p1(p0_temp==0) = 0.1;
+    
     % normalize them
     p0 = (prior0 .* p0) ./(prior0 .* p0 + prior1 .* p1);
     p1 = 1 - p0;
@@ -64,7 +62,7 @@ for i = 1: iterations
     end
     sigma0 = sigma0 / (N0 + sum(p0) - 1);
     sigma1 = sigma1 / (N1 + sum(p1) -1 );
-    sigma = prior0 * sigma0 + prior1 * sigma1 + 1.0e-5*eye(D); 
+    sigma = prior0 * sigma0 + prior1 * sigma1 + 1.0e-10*eye(D); 
 end  
 end
 
