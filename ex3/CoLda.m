@@ -1,4 +1,4 @@
-function [ mean0,mean1,sigma,prior0] = lda(X, num_labeled, iterations)
+function [ mean0,mean1,sigma,prior0] = CoLda(X, num_labeled, iterations)
 %ldc Linear Discriminate Analysis
 %  Useful info
 label = getlab(X);
@@ -13,8 +13,8 @@ N1 = size(X1,1);
 X_u = X(num_labeled+1:end,:);
 
 %%% Initialize parameters
-prior0 = size(X0,1)/num_labeled;
-prior1 = size(X1,1)/num_labeled;
+prior0 = 0.5;
+prior1 = 0.5;
 labeled_mean0 = mean(X0,1);
 labeled_mean1 = mean(X1,1);
 mean0 = labeled_mean0;
@@ -24,15 +24,15 @@ labeled_sigma0 = cov(X0);
 labeled_sigma1 = cov(X1);
 sigma0 = labeled_sigma0;
 sigma1 = labeled_sigma1;
-sigma = prior0 * sigma0 + prior1 * sigma1 + 1e-10*eye(D);
+sigma = prior0 * sigma0 + prior1 * sigma1 + 1e-5*eye(D);
 %p0 = zeros(size(X_u,1),1);
 logL = [];
 
 for i = 1: iterations
     %%% E-step: 
     % calculate post_Pr for unlabeled data
-    p0 = mvnpdf(X_u, mean0, sigma)+1e-20;
-    p1 = mvnpdf(X_u, mean1, sigma)+1e-20;
+    p0 = mvnpdf(X_u, mean0, sigma)+1e-26;
+    p1 = mvnpdf(X_u, mean1, sigma)+1e-26;
     %p0
     
     
@@ -58,8 +58,8 @@ for i = 1: iterations
     %p0
     %%% M-step : update para
     % update prior
-    prior0 = (size(X0,1) + sum(p0))/ N;
-    prior1 = (size(X1,1) + sum(p1))/ N;
+    %prior0 = (size(X0,1) + sum(p0))/ N;
+    %prior1 = (size(X1,1) + sum(p1))/ N;
     % update mean
     %mean0
     %mean1
@@ -74,7 +74,7 @@ for i = 1: iterations
     end
     sigma0 = sigma0 / (N0 + sum(p0));
     sigma1 = sigma1 / (N1 + sum(p1));
-    sigma = prior0 * sigma0 + prior1 * sigma1 + 1.0e-10*eye(D); 
+    sigma = prior0 * sigma0 + prior1 * sigma1 + 1.0e-5*eye(D); 
 
 end  
 end
