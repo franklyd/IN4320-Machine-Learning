@@ -23,5 +23,10 @@ options = optimoptions('quadprog', 'Display', 'final', ...
 
 %%%%%%%%%%%%%%%%%%%%%%%
 %%%% Add your code here
-        
+lambda = 1;
+w0 = abs(randn(n,1))+1;
+H = 1 / (n^2) * (kernel(X,X) + lambda * eye(n));
+f = - 2 / (n * m) * sum(kernel(X,Z),2);
+[w,FVAL] = quadprog(H,f,[],[],[],[],zeros(n,1),[],[],options);
+disp(FVAL);
 end
