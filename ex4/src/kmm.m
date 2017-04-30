@@ -23,16 +23,22 @@ options = optimoptions('quadprog', 'Display', 'final', ...
 
 %%%%%%%%%%%%%%%%%%%%%%%
 %%%% Add your code here
+
+% set hyperparameters
 lambda = 0;
 epsilon = 1e-2;
 
-w0 = abs(randn(n,1))+1;
-H = 1 / (n^2) * (kernel(X,X) + lambda * eye(n));
+% set parameters for quadprog solver
+H = 1 / (n ^ 2) * (kernel(X,X) + lambda * eye(n));
 f = - 2 / (n * m) * sum(kernel(X,Z),2);
-% apply the constrain
+ 
+% apply the constraint
 A = 1/n * [ones(1,n); - ones(1,n)];
 b = [epsilon + 1; epsilon - 1];
 
+% quadprog solver
 [w,FVAL] = quadprog(H,f,A,b,[],[],zeros(n,1),[],[],options);
+
+% for debugging
 disp(FVAL);
 end

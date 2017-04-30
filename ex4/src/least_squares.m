@@ -19,4 +19,5 @@ if ~all(X(:,end)==1); X = [X ones(size(X,1),1)]; end
 % Compute closed-form optimal classifier parameters
 theta = (X'*X)\X'*yX;
 
+
 end

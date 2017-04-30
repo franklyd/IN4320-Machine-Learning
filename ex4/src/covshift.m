@@ -18,8 +18,9 @@ pyn = 1./2;
 pyp = 1./2;
 
 % Class-posteriors p_S(y|x) (cumulative normal distribution)
+% Q: Why using cdf to represent it?
 pyn_X = @(a) (1+erf(-a./sqrt(2)))./2;
-pyp_X = @(a) (1+erf( a./sqrt(2)))./2;
+pyp_X = @(a) (1+erf( a ./sqrt(2)))./2;
 
 % Source data marginal p_S(x) (normal distribution)
 pX = @(a) normpdf(a, 0, 1);
@@ -166,6 +167,7 @@ set(gca, 'FontSize', fS, 'FontWeight', 'bold', 'YLim', [0 n]);
 set(gcf, 'Color', 'w', 'Position', [100 100 1000 800])
 
 saveas(gcf, 'histogram_weights.png');
+disp(mean(w));
 
 end
 
